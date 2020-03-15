@@ -18,6 +18,9 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Poppins:wght@400;500;600&display=swap' }
     ],
+    script: [
+      { src: 'https://kit.fontawesome.com/3ac1d755ed.js', crossorigin: 'anonymous'}
+    ]
   },
   /*
    ** Customize the progress-bar color

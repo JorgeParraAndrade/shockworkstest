@@ -88,15 +88,51 @@
 			</div>
 		</div>
 
+		<section class="contact" :style="{ 'backgroundImage': `url(${Image5})`}">
+			<div class="container">	
+				<h3><span>Facing Problem?</span> <br> Lets Get In Touch Now</h3>
+				<div class="form-container">
+					<div class="form-card">
+						<form action="#">
+							<div class="inline-form">
+								<label for="name"> First Name
+									<input type="text" name="name" placeholder="Robert Lee" />
+								</label>
+								<label for="lastname"> Last Name
+									<input type="text" name="lastname" placeholder="Anderson"/>
+								</label>
+							</div>
+							<label for="email"> Your Email Address
+								<input type="text" name="problem" placeholder="kevin.jones@gmail.com"/>
+							</label>
+							<label for="problem"> Which Related Problem You Are Facing?
+								<select name="problem">
+									<option value="0">Select One</option>
+									<option value="1">Opt 1</option>
+									<option value="2">Opt 2</option>
+								</select>
+							</label>
+							<label for="message"> Type Your Message
+								<textarea name="message">Here goes your message</textarea>
+							</label>
+						</form>
+						<a href="#" class="btn-main-outline">Our Works</a>
+					</div>
+					<div class="side-image-container">
+						<img src="../assets/img/comp2.png" alt="contact">
+					</div>
+				</div>
+			</div>
+		</section>
+		<Footer />
 	</div>
 </template>
 
 <script>
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 import Image1 from '~/assets/img/back3.png'
-import Image2 from '../assets/img/pic1.png'
-import Image3 from '../assets/img/pic2.png'
-import Image4 from '../assets/img/pic3.png'
+import Image5 from '../assets/img/1Asset-2.jpg'
 export default {
 	async asyncData({ $axios }) {
 		try{
@@ -110,6 +146,7 @@ export default {
 	data() {
     return {
 			Image1,
+			Image5,
 			swiperOption: {
 				loop: true,
 				slidesPerView: 5,
@@ -135,7 +172,8 @@ export default {
 	},
 	
 	components: {
-		Header
+		Header,
+		Footer
 	}
 
 }
@@ -337,6 +375,93 @@ export default {
 
 	img {
 		max-width: 15px;
+	}
+}
+
+.contact {
+	padding: 5px 0;
+	margin: 50px 0;
+
+	h3 {
+		text-align: center;
+    font-size: 45px;
+    margin-top: 70px;
+    font-family: montserrat;
+		width: 620px;
+    margin: 60px auto;
+
+		span {
+			font-weight: 400;
+		}
+	}
+
+	.form-container {
+		display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+		margin-bottom: 60px;
+
+		.form-card {
+			background-color: #fff;
+			padding: 50px;
+			margin-right: 50px;
+			border-radius: 8px;
+			box-shadow: 0px 20px 60px #3e3e3e29;
+			max-width: 930px;
+			position: relative;
+
+
+			&:after {
+				content: '';
+				position: absolute;
+				background-image: url('../assets/img/arrow-backg.png');
+				width: 200px;
+				height: 135px;
+				top: 40px;
+    		right: -200px;
+				background-size: contain;
+				background-repeat: no-repeat;
+			}
+
+			.inline-form {
+				width: 100%;
+    		display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+
+				&:first-child {
+					margin-right: 50px;
+				}
+
+			}
+
+			label {
+				font-size: 16px;
+				font-weight: 500;
+				display: flex;
+				flex-direction: column;
+			}
+
+			input, select, textarea {
+				padding: 20px 0px;
+				border: none;
+				border-bottom: solid 1px #cccccc94;
+				width: 100%;
+    		min-width: 300px;
+				margin-bottom: 50px;
+				color: #757779 !important;
+				font-family: poppins;
+				font-size: 15px;
+			}
+
+			textarea {
+				text-align: left;
+				resize: none;
+				min-height: 120px;
+			}
+
+		}
 	}
 }
 
