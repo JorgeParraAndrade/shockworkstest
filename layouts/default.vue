@@ -72,6 +72,7 @@ p {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	cursor: pointer;
 }
 
 .btn-main-outline {
@@ -87,6 +88,7 @@ p {
 	align-items: center;
 	justify-content: center;
 	transition: all ease 0.3s;
+	cursor: pointer;
 
 	&:hover {
 		color: #fff;

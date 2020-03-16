@@ -15,6 +15,9 @@
 			<input type="text" class="search-box" />
 			<a href="#" class="btn-main">Contact Us</a>
 		</div>
+		<div class="resp-menu">
+			<i class="fas fa-grip-lines"></i>
+		</div>
 	</nav>
 </template>
 
@@ -35,6 +38,13 @@ export default {}
 
 		img {
 			width: 100%;
+			min-width: 300px;
+		}
+	}
+
+	.resp-menu {
+		@media (min-width: 1025px) {
+			display: none;
 		}
 	}
 
@@ -43,6 +53,10 @@ export default {}
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
+
+		@media (max-width: 1025px) {
+			display: none;
+		}
 
 		.menu-list {
 			list-style: none;
@@ -93,6 +107,10 @@ export default {}
 			background-position: 97%;
 			margin: 0 40px 0 0;
 			padding: 10px 45px 10px 10px;
+
+			@media (max-width: 1440px) {
+				display: none;
+			}
 		}
 	}
 }

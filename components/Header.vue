@@ -28,6 +28,12 @@
 
 	.main-image {
 		.center-container {
+			margin: 20px 0;
+			img {
+				@media (max-width: 768px) {
+					width: 100%;
+				}
+			}
 			h1 {
 				font-size: 50px;
 				color: #222222;
@@ -36,6 +42,11 @@
 				text-transform: capitalize;
 				line-height: 1.2;
 				text-align: center;
+
+				@media (max-width: 768px) {
+					font-size: 35px;
+					margin: 30px 0;
+				}
 			}
 			.btn-container {
 				display: flex;

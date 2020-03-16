@@ -59,6 +59,10 @@
   background-repeat: no-repeat;
   padding-bottom: 320px;
 
+  @media (max-width: 920px) {
+    padding-bottom: 100px;
+  }
+
   img {
     width: 100%;
     max-width: 525px;
@@ -69,10 +73,18 @@
     align-items: flex-start;
     justify-content: space-around;
 
+    @media (max-width: 920px) {
+      flex-direction: column;
+    }
+
     .footer-part {
       width: 25%;
       text-align: left;
       font-family: poppins;
+
+      @media (max-width: 920px) {
+        width: 100%;
+      }
 
       h4 {
         margin-bottom: 15px;

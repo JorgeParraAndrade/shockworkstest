@@ -49,8 +49,8 @@
 						</div>
 				</div>
 				<div class="navigation-arrow">
-					<button class="btn-slider" @click="mySwiper.slidePrev()"><img src="../assets/img/larrow.png" alt=""></button>
-					<button class="btn-slider" @click="mySwiper.slideNext()"><img src="../assets/img/rarrow.png" alt=""></button>
+					<button class="btn-slider" @click="mySwiper.slidePrev()"><img src="../assets/img/larrow.png" alt="prev"></button>
+					<button class="btn-slider" @click="mySwiper.slideNext()"><img src="../assets/img/rarrow.png" alt="next"></button>
 				</div>
 			</div>
 		</section>
@@ -88,6 +88,8 @@
 			</div>
 		</div>
 
+		<ClientsSlider :users="serverUsers" />
+
 		<section class="contact" :style="{ 'backgroundImage': `url(${Image5})`}">
 			<div class="container">	
 				<h3><span>Facing Problem?</span> <br> Lets Get In Touch Now</h3>
@@ -95,28 +97,28 @@
 					<div class="form-card">
 						<form action="#">
 							<div class="inline-form">
-								<label for="name"> First Name
-									<input type="text" name="name" placeholder="Robert Lee" />
+								<label for="name"> Post Title
+									<input type="text" v-model="postInfo.title" name="name" placeholder="title" />
 								</label>
-								<label for="lastname"> Last Name
+								<label for="lastname" v-if="false"> Last Name
 									<input type="text" name="lastname" placeholder="Anderson"/>
 								</label>
 							</div>
-							<label for="email"> Your Email Address
-								<input type="text" name="problem" placeholder="kevin.jones@gmail.com"/>
+							<label for="email" v-if="false"> Your Email Address
+								<input type="email" name="problem" placeholder="kevin.jones@gmail.com"/>
 							</label>
-							<label for="problem"> Which Related Problem You Are Facing?
+							<label for="problem" v-if="false"> Which Related Problem You Are Facing?
 								<select name="problem">
 									<option value="0">Select One</option>
 									<option value="1">Opt 1</option>
 									<option value="2">Opt 2</option>
 								</select>
 							</label>
-							<label for="message"> Type Your Message
-								<textarea name="message">Here goes your message</textarea>
+							<label for="message"> Post Body
+								<textarea name="message" v-model="postInfo.body">Here goes your message</textarea>
 							</label>
 						</form>
-						<a href="#" class="btn-main-outline">Our Works</a>
+						<a @click.prevent="sendData()" class="btn-main-outline">Submit</a>
 					</div>
 					<div class="side-image-container">
 						<img src="../assets/img/comp2.png" alt="contact">
@@ -131,22 +133,32 @@
 <script>
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import ClientsSlider from '../components/ClientsSlider'
 import Image1 from '~/assets/img/back3.png'
 import Image5 from '../assets/img/1Asset-2.jpg'
+import axios from 'axios'
 export default {
 	async asyncData({ $axios }) {
+
 		try{
 			let serverData = await $axios.$get(`http://newsapi.org/v2/top-headlines?country=us&apiKey=bdca2dcef4ca4fb2af7374dffc557c4d`);
-			return { serverData }
+			let serverUsers = await $axios.$get(`https://jsonplaceholder.typicode.com/users`);
+			console.log(serverUsers);
+			return { serverData, serverUsers }
 		}
 		catch(error){
 			console.log(error);
 		}
+
 	},
 	data() {
     return {
 			Image1,
 			Image5,
+			postInfo: {
+				title:'',
+				body:'Body'
+			},
 			swiperOption: {
 				loop: true,
 				slidesPerView: 5,
@@ -155,6 +167,24 @@ export default {
 				watchSlidesProgress: true,
 				watchSlidesVisibility: true,
 				slideVisibleClass: 'active',
+				breakpoints: {
+					960: {
+						slidesPerView: 4,
+						spaceBetween: 8
+					},
+					720: {
+						slidesPerView: 3,
+						spaceBetween: 6
+					},
+					540: {
+						slidesPerView: 2,
+						spaceBetween: 4
+					},
+					320: {
+						slidesPerView: 1,
+						spaceBetween: 2
+					},
+				},
 				on: {
 					imagesReady() {
 						document.querySelectorAll('.active').forEach(a => a.classList.remove('blur'));
@@ -173,7 +203,31 @@ export default {
 	
 	components: {
 		Header,
-		Footer
+		Footer,
+		ClientsSlider
+	},
+
+	methods: {
+		async sendData(){
+			try{
+				let serverResponse = await axios.post('https://jsonplaceholder.typicode.com/posts', {
+					userId: Math.floor(Math.random() * Math.floor(100)),
+					id: Math.floor(Math.random() * Math.floor(100)),
+					title: this.postInfo.title,
+					body: this.postInfo.body
+				},
+				{
+					headers: {
+						'Access-Control-Allow-Origin': '*'
+					}
+				});
+				console.log(serverResponse);
+			}
+			catch(error){
+				console.log(error);
+			}
+		}
+
 	}
 
 }
@@ -183,6 +237,11 @@ export default {
 .container {
 	max-width: 80%;
 	margin: 0 auto;
+
+	@media (max-width: 768px) {
+		max-width: 90%;
+		margin: 90px auto;
+	}
 }
 
 .col-container {
@@ -190,16 +249,32 @@ export default {
 	justify-content: center;
 	align-items: center;
 
+	@media (max-width: 768px) {
+		flex-direction: column;
+	}
+
 	.col-40 {
 		width: 40%;
+		@media (max-width: 768px) {
+			width: 100%;
+		}
+		
 	}
 
 	.col-50 {
 		width: 50%;
+		@media (max-width: 768px) {
+			width: 100%;
+		}
+		
 	}
 
 	.col-60 {
 		width: 60%;
+		@media (max-width: 768px) {
+			width: 100%;
+		}
+		
 	}
 }
 
@@ -208,6 +283,12 @@ export default {
 	background-position: center;
 	background-repeat: no-repeat;
 	width: 100%;
+
+	@media (max-width: 1025px) {
+		img {
+			width: 100%;
+		}
+	}
 }
 
 .partners-section {
@@ -217,6 +298,10 @@ export default {
     font-size: 45px;
     margin-top: 70px;
     font-family: montserrat;
+
+		@media (max-width: 768px) {
+			font-size: 28px;
+		}
 	}
 
 	.card-deck {
@@ -238,15 +323,22 @@ export default {
 			flex-direction: column;
 			box-shadow: 0px 10px 30px #99999933;
 
-			&:nth-child(1) {
-				margin-top: 120px;
-			}	
-			&:nth-child(3) {
-				margin-top: 120px;
-			}	
-			&:nth-child(5) {
-				margin-top: -80px;
-			}	
+			@media (min-width: 1520px){
+				&:nth-child(1) {
+					margin-top: 120px;
+				}	
+				&:nth-child(3) {
+					margin-top: 120px;
+				}	
+				&:nth-child(5) {
+					margin-top: -80px;
+				}	
+			}
+
+			@media (max-width: 920px){
+    		width: 100%;
+			}
+
 
 			&:hover {
 				background-color: #185f7f;
@@ -289,6 +381,12 @@ export default {
 		span{
 			font-weight: 400;
 		}
+
+		@media (max-width: 768px) {
+			font-size: 28px;
+			width: 100%;
+		}
+
 	}
 }
 
@@ -360,6 +458,11 @@ export default {
 	align-items: center;
 	justify-content: center;
 
+	@media (max-width: 1025px) {
+    height: 130px;
+    width: 130px;
+	}
+
 	img {
 		height: 100%;
 	}
@@ -393,6 +496,11 @@ export default {
 		span {
 			font-weight: 400;
 		}
+		
+		@media (max-width: 768px) {
+			font-size: 28px;
+			width: 100%;
+		}
 	}
 
 	.form-container {
@@ -411,6 +519,13 @@ export default {
 			max-width: 930px;
 			position: relative;
 
+			@media (max-width: 768px) {
+				margin: 0;
+				padding: 20px;
+				&:after {
+					display: none;
+				}
+			}
 
 			&:after {
 				content: '';
@@ -461,6 +576,18 @@ export default {
 				min-height: 120px;
 			}
 
+		}
+	}
+
+	.side-image-container {
+		img {
+			@media (max-width: 1025px) {
+				width: 100%;
+			}
+
+			@media (max-width: 920px) {
+				display: none;
+			}
 		}
 	}
 }
